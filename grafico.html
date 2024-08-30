@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráficos para Plan de Negocio</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .chart-container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gráficos para Plan de Negocio</h1>
+
+    <div class="chart-container">
+        <h2>Distribución de Ventas por Categoría de Producto</h2>
+        <canvas id="salesDistributionChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <h2>Crecimiento de Ventas Proyectado</h2>
+        <canvas id="salesGrowthChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <h2>Análisis FODA</h2>
+        <canvas id="fodaChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <h2>Participación de Mercado</h2>
+        <canvas id="marketShareChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <h2>Presupuesto de Operaciones</h2>
+        <canvas id="budgetChart"></canvas>
+    </div>
+
+    <script>
+        // Distribución de Ventas por Categoría de Producto
+        var ctx1 = document.getElementById('salesDistributionChart').getContext('2d');
+        var salesDistributionChart = new Chart(ctx1, {
+            type: 'pie',
+            data: {
+                labels: ['Teléfonos móviles', 'Accesorios', 'Servicios de crédito'],
+                datasets: [{
+                    label: 'Distribución de Ventas',
+                    data: [60000, 25000, 15000],
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+                    borderColor: '#fff',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (context.parsed !== null) {
+                                    label += ': ' + context.parsed + ' USD';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Crecimiento de Ventas Proyectado
+        var ctx2 = document.getElementById('salesGrowthChart').getContext('2d');
+        var salesGrowthChart = new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: ['Año 1', 'Año 2', 'Año 3', 'Año 4'],
+                datasets: [{
+                    label: 'Ventas Proyectadas',
+                    data: [100000, 150000, 200000, 250000],
+                    borderColor: '#FF6384',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderWidth: 2,
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y + ' USD';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Años'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Ventas (USD)'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Análisis FODA
+        var ctx3 = document.getElementById('fodaChart').getContext('2d');
+        var fodaChart = new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: ['Fortalezas', 'Oportunidades', 'Debilidades', 'Amenazas'],
+                datasets: [{
+                    label: 'Fortalezas',
+                    data: [5], // Ejemplo
+                    backgroundColor: '#36A2EB'
+                }, {
+                    label: 'Oportunidades',
+                    data: [4], // Ejemplo
+                    backgroundColor: '#FFCE56'
+                }, {
+                    label: 'Debilidades',
+                    data: [3], // Ejemplo
+                    backgroundColor: '#FF6384'
+                }, {
+                    label: 'Amenazas',
+                    data: [2], // Ejemplo
+                    backgroundColor: '#4BC0C0'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (context.parsed.y !== null) {
+                                    label += ': ' + context.parsed.y;
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        stacked: true,
+                        title: {
+                            display: true,
+                            text: 'Categorías'
+                        }
+                    },
+                    y: {
+                        stacked: true,
+                        title: {
+                            display: true,
+                            text: 'Número de Elementos'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Participación de Mercado
+        var ctx4 = document.getElementById('marketShareChart').getContext('2d');
+        var marketShareChart = new Chart(ctx4, {
+            type: 'bar',
+            data: {
+                labels: ['Competidor A', 'Competidor B', 'Competidor C', 'Competidor D', 'Otros'],
+                datasets: [{
+                    label: 'Participación de Mercado',
+                    data: [30, 25, 20, 15, 10],
+                    backgroundColor: '#FFCE56'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y + '%';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Competidores'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Participación (%)'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Presupuesto de Operaciones
+        var ctx5 = document.getElementById('budgetChart').getContext('2d');
+        var budgetChart = new Chart(ctx5, {
+            type: 'bar',
+            data: {
+                labels: ['Marketing', 'Inventario', 'Sueldos', 'Otros'],
+                datasets: [{
+                    label: 'Presupuesto (USD)',
+                    data: [30000, 40000, 20000, 10000],
+                    backgroundColor: '#36A2EB'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y + ' USD';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Áreas Operativas'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Presupuesto (USD)'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
